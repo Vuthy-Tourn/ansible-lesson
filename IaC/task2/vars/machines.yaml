@@ -1,9 +1,9 @@
 # contains all configuration related to the machines that we might use for the whole infrastructure setup 
 #service_account_path: "/home/kk/credentials/service-account.json"
 
-adc_file: "/home/vagrant/ansible-related/IaC/task2/credentials/service-account.json"
+service_account_path: "/home/macbookpro/ansible-lesson/IaC/task2/credientials/service-account.json"
 google_project_id: "temporal-bebop-483101-j1"
-ssh_pubkey_path: "/home/vagrant/.ssh/ansible_rsa.pub"
+ssh_pubkey_path: "/home/macbookpro/.ssh/id_rsa.pub"
 agent_user: "macbookpro"
 
 # Define machine spec

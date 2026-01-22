@@ -1,11 +1,38 @@
---- 
+---
 - name: Setting up infrastructure
-  hosts: master1 
-  become: true 
+  hosts: localhost
+  become: true
   vars_files:
-    - ../vars/machines.yaml 
-  tasks: 
-    - name: Creating masters machines 
-      include_tasks: ./tasks/create-masters-task.yaml 
-    - name: Creating workers machines 
-      include_tasks: ./tasks/create-workers-task.yaml
+    - ../vars/machines.yaml
+  vars:
+    mode: "{{ mode | default('create') }}"  # default is create
+  tasks:
+
+  - name: Install pip
+    apt:
+      name: python3-pip
+      state: present
+    when: mode == "create"
+
+  - name: Use pip to install requests and google-auth
+    pip:
+      name:
+        - requests
+        - google-auth
+    when: mode == "create"
+
+  - name: Creating master machines
+    include_tasks: ./tasks/create-masters-task.yaml
+    when: mode == "create"
+
+  - name: Creating worker machines
+    include_tasks: ./tasks/create-workers-task.yaml
+    when: mode == "create"
+
+  - name: Destroying master machines
+    include_tasks: ./tasks/destroy-masters-task.yaml
+    when: mode == "destroy"
+
+  - name: Destroying worker machines
+    include_tasks: ./tasks/destroy-workers-task.yaml
+    when: mode == "destroy"
