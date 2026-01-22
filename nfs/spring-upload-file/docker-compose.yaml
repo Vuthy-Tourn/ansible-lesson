@@ -1,0 +1,19 @@
+services:
+  filestorageservice:
+    image: vuthytourn/spring-file-upload:v1.0.0
+    container_name: filestorageservice
+    ports:
+      - "8282:8282"
+    volumes:
+      - filestorage-vol:/mnt/nfs_shared
+    environment:
+      - SPRING_FILE_BASE_DIR=/mnt/nfs_shared
+    restart: always
+
+volumes:
+  filestorage-vol:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=10.184.0.4,rw
+      device: ":/srv/nfs_shared"

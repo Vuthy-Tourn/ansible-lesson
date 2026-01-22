@@ -1,0 +1,60 @@
+- name: Deploy Spring File Upload Service with NFS
+  hosts: gcp_clients
+  become: true
+
+  vars:
+    docker_compose_dir: /opt/fileupload
+    nfs_server_ip: 10.184.0.4
+    nfs_server_path: /srv/nfs_shared
+    deploy_user: macbookpro
+
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+      ignore_errors: yes
+
+    - name: Install Docker
+      shell: |
+        curl -fsSL https://get.docker.com | sh
+      args:
+        creates: /usr/bin/docker
+
+    - name: Enable Docker service
+      systemd:
+        name: docker
+        enabled: yes
+        state: started
+
+    - name: Add user to docker group
+      user:
+        name: "{{ deploy_user }}"
+        groups: docker
+        append: yes
+
+    - name: Install docker-compose
+      get_url:
+        url: https://github.com/docker/compose/releases/download/v2.24.5/docker-compose-linux-x86_64
+        dest: /usr/local/bin/docker-compose
+        mode: '0755'
+
+    - name: Create deployment directory
+      file:
+        path: "{{ docker_compose_dir }}"
+        state: directory
+        owner: "{{ deploy_user }}"
+        group: "{{ deploy_user }}"
+        mode: "0755"
+
+    - name: Deploy docker-compose.yaml
+      template:
+        src: ../docker-compose.yaml
+        dest: "{{ docker_compose_dir }}/docker-compose.yaml"
+        owner: "{{ deploy_user }}"
+        group: "{{ deploy_user }}"
+        mode: "0644"
+
+    - name: Pull and start application
+      shell: docker-compose up -d
+      args:
+        chdir: "{{ docker_compose_dir }}"
