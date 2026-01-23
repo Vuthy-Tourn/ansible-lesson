@@ -7,19 +7,23 @@
 
   loop: "{{ machines_info }}"
   when: true 
+
 - name: Check if public key exist 
   stat:
     path: "{{ ssh_pubkey_path }}"
   register: ssh_pubkey_stat
+
 - name: Generate ssh key pair there is no pub key 
   shell: |
     ssh-keygen -t rsa -b 4096 -f /home/{{agent_user}}/.ssh/id_rsa -N ''
   become_user: "{{agent_user}}"  
   when: ssh_pubkey_stat.stat.exists == False
+
 - name: Slurp pub key from local machine 
   slurp: 
     src: "{{ ssh_pubkey_path }}"
   register: ssh_pubkey
+  
 - name: Create GCP instance
   google.cloud.gcp_compute_instance:
     name: "{{ item.name }}"
@@ -53,7 +57,7 @@
   loop: "{{ machines_info }}"
   register: gcp_instances
   # when: false 
-  when: item.name in ["master-itp-1"] 
+  when: item.name in ["master02","master03"] 
     # - item.name == "master02"
     # - item.name == "master03"
   # environment: 
@@ -66,6 +70,7 @@
     content: "{{ gcp_instances }}"
     dest: "./gcp_more_instances.json"
   when: true
+
 - name: Create inventory from template 
   template: 
     src: ../templates/masters-inventory.j2

@@ -4,9 +4,11 @@
   become: true
   vars_files:
     - ../vars/machines.yaml
-  vars:
-    mode: "{{ mode | default('create') }}"  # default is create
   tasks:
+
+  - name: Set default mode
+    set_fact:
+      mode: "{{ mode | default('create') }}"
 
   - name: Install pip
     apt:

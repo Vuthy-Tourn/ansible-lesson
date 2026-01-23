@@ -1,7 +1,6 @@
 # contains all configuration related to the machines that we might use for the whole infrastructure setup 
-#service_account_path: "/home/kk/credentials/service-account.json"
 
-service_account_path: "/home/macbookpro/ansible-lesson/IaC/task2/credientials/service-account.json"
+service_account_path: "/home/macbookpro/ansible-lesson/IaC/task2/credientials/service_account.json"
 google_project_id: "temporal-bebop-483101-j1"
 ssh_pubkey_path: "/home/macbookpro/.ssh/id_rsa.pub"
 agent_user: "macbookpro"
@@ -35,18 +34,21 @@ machines_info:
     zone: "{{ machine_specs.large.zone }}"
     disk_size: "{{ machine_specs.large.disk_size }}"
     disk_type: "{{ machine_specs.large.disk_type }}"
+
   - name: "master03"
     machine_type: "{{ machine_specs.large.machine_type }}"
     image: "{{ ubuntu_specs.v22.image }}"
     zone: "{{ machine_specs.large.zone }}"
     disk_size: "{{ machine_specs.large.disk_size }}"
     disk_type: "{{ machine_specs.large.disk_type }}"
+
   - name: "worker01"
     machine_type: "{{ machine_specs.medium.machine_type }}"
     image: "{{ ubuntu_specs.v22.image }}"
     zone: "asia-east2-a"
     disk_size: "{{ machine_specs.medium.disk_size }}"
     disk_type: "{{ machine_specs.medium.disk_type }}"
+
   - name: "worker02"
     image: "{{ ubuntu_specs.v22.image }}"
     machine_type: "{{ machine_specs.medium.machine_type }}"

@@ -29,7 +29,7 @@
   loop: "{{ machines_info }}"
   register: gcp_instances
   # when: false 
-  when: item.name in ["master-itp-1"] 
+  when: item.name in ["master02","master03"] 
     # - item.name == "master02"
     # - item.name == "master03"
   # environment: 
