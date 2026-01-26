@@ -1,6 +1,3 @@
-[submodule "nfs-ft-roles/roles/ansible-nfs-role"]
-	path = nfs-ft-roles/roles/ansible-nfs-role
-	url = https://github.com/Vuthy-Tourn/ansible-nfs-role
 [submodule "nfs-ft-roles/roles/nfs"]
 	path = nfs-ft-roles/roles/nfs
 	url = https://github.com/Vuthy-Tourn/ansible-nfs-role
