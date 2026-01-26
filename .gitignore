@@ -1,3 +1,4 @@
 # Ignore all credentials folders
 IaC/task1/credentials/
 IaC/task2/credentials/
+vault/secrets

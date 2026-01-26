@@ -1,0 +1,11 @@
+---
+- name: Demostration
+  hosts: localhost
+  vars_files: 
+    - ../var/secret.yaml
+  tasks:
+    - name: Display message
+      debug:
+        msg: |
+          Username is {{ username }}
+          Password is {{ password }}
