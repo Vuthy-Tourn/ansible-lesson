@@ -4,11 +4,17 @@
                
 ```bash 
 
-# Removes the nfs directory ONLY from Git’s tracking, but keeps the files on disk.
+# Removes the nfs directory ONLY from Git’s tracking.
 git rm --cached -r nfs-ft-roles/roles/nfs
 
+# Clean leftover submodule metadata
+rm -rf .git/modules/nfs-ft-roles/roles/nfs
+
+# Remove from disk
+rm -rf nfs-ft-roles/roles/nfs
+
 # Adds the repository as a Git submodule at the given path.
-git submodule add --force https://github.com/Vuthy-Tourn/ansible-nfs-role.git nfs-ft-roles/roles/nfs
+git submodule add https://github.com/Vuthy-Tourn/ansible-nfs-role.git nfs-ft-roles/roles/nfs
 
 ```
 
