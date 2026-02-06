@@ -6,7 +6,6 @@
       machine_name: "first-demo"
       google_project_id: "temporal-bebop-483101-j1"
       service_account_path: "/home/vagrant/ansible-related/IaC/task1/credentials/service-account.json"
-      # adc_file: "/home/vagrant/.config/gcloud/application_default_credentials.json"
     tasks: 
       - name: Remove GCP instance
         google.cloud.gcp_compute_instance:
@@ -37,6 +36,3 @@
               - https-server
         register: gcp_instance
         when: true 
-        # environment: 
-        #   GOOGLE_APPLICATION_CREDENTIALS: "{{ adc_file }}"
-        #   GOOGLE_EXTERNAL_ACCOUNT_ALLOW_EXECUTABLES: "1"

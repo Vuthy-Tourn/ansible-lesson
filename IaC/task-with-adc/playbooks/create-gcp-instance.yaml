@@ -5,8 +5,7 @@
       ssh_public_path: "/home/vagrant/.ssh/ansible_rsa.pub"
       machine_name: "first-demo"
       google_project_id: "temporal-bebop-483101-j1"
-      service_account_path: "/home/vagrant/ansible-related/IaC/task1/credentials/service-account.json"
-      # adc_file: "/home/vagrant/.config/gcloud/application_default_credentials.json"
+      adc_file: "/home/vagrant/.config/gcloud/application_default_credentials.json"
   tasks: 
     - name: Update apt cache 
       apt: 
@@ -35,9 +34,7 @@
         machine_type: "e2-medium"
         zone: "asia-east1-b"
         project: "{{google_project_id}}"
-        # auth_kind: application
-        auth_kind: "serviceaccount"
-        service_account_file: "{{ service_account_path }}"
+        auth_kind: application
         state: present
         metadata:
           ssh-keys: "macbookpro:{{ ssh_pub_key['content'] | b64decode }}"
@@ -64,9 +61,9 @@
       register: gcp_instance
       when: true 
       # let it know what use to authenticate
-      # environment: 
-      #   GOOGLE_APPLICATION_CREDENTIALS: "{{ adc_file }}"
-      #   GOOGLE_EXTERNAL_ACCOUNT_ALLOW_EXECUTABLES: "1"
+      environment: 
+        GOOGLE_APPLICATION_CREDENTIALS: "{{ adc_file }}"
+        GOOGLE_EXTERNAL_ACCOUNT_ALLOW_EXECUTABLES: "1"
 
     - name: Write gcp_instance into json file
       copy:
