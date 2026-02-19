@@ -1,0 +1,39 @@
+  - name: Remove a Single GCP instance 
+    hosts: localhost 
+    become: true 
+    vars: 
+      ssh_public_path: "/home/vagrant/.ssh/ansible_rsa.pub"
+      machine_name: "first-demo"
+      google_project_id: "temporal-bebop-483101-j1"
+      adc_file: "/home/vagrant/.config/gcloud/application_default_credentials.json"
+    tasks: 
+      - name: Remove GCP instance
+        google.cloud.gcp_compute_instance:
+          name: "{{machine_name}}"
+          machine_type: "e2-medium"
+          zone: "asia-east1-b"
+          project: "{{google_project_id}}"
+          auth_kind: application
+          state: absent
+          disks:
+            - auto_delete: true
+              boot: true
+              initialize_params:
+                source_image: "projects/ubuntu-os-cloud/global/images/family/ubuntu-2204-lts"
+                disk_size_gb: 15
+                disk_type: "pd-standard"
+          network_interfaces:
+            - network:
+                selfLink: "projects/{{google_project_id}}/global/networks/default"
+              access_configs:
+                - name: External NAT
+                  type: ONE_TO_ONE_NAT
+          tags:
+            items:
+              - http-server
+              - https-server
+        register: gcp_instance
+        when: true 
+        environment: 
+          GOOGLE_APPLICATION_CREDENTIALS: "{{ adc_file }}"
+          GOOGLE_EXTERNAL_ACCOUNT_ALLOW_EXECUTABLES: "1"
