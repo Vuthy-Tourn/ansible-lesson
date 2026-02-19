@@ -1,4 +1,5 @@
 # Ignore all credentials folders
-IaC/task1/credentials/
-IaC/task2/credentials/
+ansible-lesson/IaC/task1/credentials/
+ansible-lesson/IaC/task2/credentials/
 vault/secrets
+*.json

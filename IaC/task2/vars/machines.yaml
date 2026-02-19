@@ -1,7 +1,7 @@
 # contains all configuration related to the machines that we might use for the whole infrastructure setup 
 
-service_account_path: "/home/macbookpro/ansible-lesson/IaC/task2/credientials/service_account.json"
-google_project_id: "temporal-bebop-483101-j1"
+service_account_path: "/home/macbookpro/ansible-lesson/IaC/task2/crediential/service_account.json"
+google_project_id: "winged-memory-485604-r8"
 ssh_pubkey_path: "/home/macbookpro/.ssh/id_rsa.pub"
 agent_user: "macbookpro"
 
